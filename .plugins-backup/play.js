@@ -16,7 +16,7 @@ exports.run = {
    }) => {
       try {
          if (!text) return client.reply(m.chat, Func.example(isPrefix, command, 'lathi'), m)
-         client.sendReact(m.chat, '🕒', m.key)
+         client.sendReact(m.chat, '🎧', m.key)
          const json = await Scraper.play(text)
          if (!json.status) return client.reply(m.chat, Func.jsonFormat(json), m)
          let caption = `乂  *Y T - P L A Y*\n\n`
@@ -34,6 +34,7 @@ exports.run = {
          }).then(async () => {
             const buffer = await Converter.toAudio(json.data.buffer, 'mp3')
             client.sendFile(m.chat, buffer, json.data.filename, '', m, {
+               audio: true,
                document: true,
                APIC: await Func.fetchBuffer(json.thumbnail)
             })
