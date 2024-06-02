@@ -23,19 +23,18 @@ exports.run = {
          caption += `	◦  *Title* : ${json.title}\n`
          caption += `	◦  *Size* : ${json.data.size}\n`
          caption += `	◦  *Duration* : ${json.duration}\n`
-         caption += `	◦  *Bitrate* : ${json.data.quality}\n\n`
-         caption += global.footer   
+         caption += `	◦  *Bitrate* : ${json.data.quality}\n\n`   
          const chSize = Func.sizeLimit(json.data.size, users.premium ? env.max_upload : env.max_upload_free)
          const isOver = users.premium ? `💀 File size (${json.data.size}) exceeds the maximum limit.` : `⚠️ File size (${json.data.size}), you can only download files with a maximum size of ${env.max_upload_free} MB and for premium users a maximum of ${env.max_upload} MB.`
          if (chSize.oversize) return client.reply(m.chat, isOver, m)
          client.sendMessageModify(m.chat, caption, m, {
-            largeThumb: true,
+            largeThumb: false,
             thumbnail: await Func.fetchBuffer(json.thumbnail)
          }).then(async () => {
             const buffer = await Converter.toAudio(json.data.buffer, 'mp3')
             client.sendFile(m.chat, buffer, json.data.filename, '', m, {
                audio: true,
-               document: true,
+               document: false,
                APIC: await Func.fetchBuffer(json.thumbnail)
             })
          })
